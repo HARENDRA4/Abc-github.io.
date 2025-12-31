@@ -1,12 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Website</title>
+    <meta charset="UTF-8">
+    <title>Online Comics Reader</title>
+
+    <!-- ===== CSS (style.css combined) ===== -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .comic-list {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .comic-card {
+            background: white;
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .comic-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .comic-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #ff5722;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Hello World</h1>
-    <p>This is my first HTML page.</p>
+<header>
+    <h1>📚 Online Comics</h1>
+</header>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="comic-list" id="homePage">
+    <div class="comic-card">
+        <img src="comics/nagraj/1.jpg" alt="Nagraj">
+        <h3>Nagraj</h3>
+        <a href="?comic=nagraj">Read Now</a>
+    </div>
+
+    <div class="comic-card">
+        <img src="comics/super-commando-dhruv/1.jpg" alt="Dhruv">
+        <h3>Super Commando Dhruv</h3>
+        <a href="?comic=super-commando-dhruv">Read Now</a>
+    </div>
+</div>
+
+<!-- ===== READER PAGE ===== -->
+<div id="readerPage" style="display:none; text-align:center; padding:20px;">
+    <img id="comicPage" src="" style="max-width:90%; height:auto;">
+    <br><br>
+    <button onclick="prevPage()">⬅ Prev</button>
+    <button onclick="nextPage()">Next ➡</button>
+</div>
+
+<!-- ===== JS (script.js combined) ===== -->
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const comic = params.get("comic");
+
+    let page = 1;
+    const totalPages = 3; // change as per comic
+
+    const img = document.getElementById("comicPage");
+    const homePage = document.getElementById("homePage");
+    const readerPage = document.getElementById("readerPage");
+
+    function loadPage() {
+        img.src = `comics/${comic}/${page}.jpg`;
+    }
+
+    function nextPage() {
+        if (page < totalPages) {
+            page++;
+            loadPage();
+        }
+    }
+
+    function prevPage() {
+        if (page > 1) {
+            page--;
+            loadPage();
+        }
+    }
+
+    if (comic) {
+        homePage.style.display = "none";
+        readerPage.style.display = "block";
+        loadPage();
+    }
+</script>
 
 </body>
 </html>
